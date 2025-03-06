@@ -1,0 +1,28 @@
+import type { Language } from './languages.type';
+
+export const languages: Language[] = [
+  { id: '1', name: 'English (United States)', code: 'en-US', nativeName: 'English' },
+  { id: '2', name: 'English (United Kingdom)', code: 'en-GB', nativeName: 'English (UK)' },
+  { id: '3', name: 'Spanish (Spain)', code: 'es-ES', nativeName: 'Español' },
+  { id: '4', name: 'Spanish (Mexico)', code: 'es-MX', nativeName: 'Español (México)' },
+  { id: '5', name: 'French (France)', code: 'fr-FR', nativeName: 'Français' },
+  { id: '6', name: 'French (Canada)', code: 'fr-CA', nativeName: 'Français (Canada)' },
+  { id: '7', name: 'German (Germany)', code: 'de-DE', nativeName: 'Deutsch' },
+  { id: '8', name: 'Italian (Italy)', code: 'it-IT', nativeName: 'Italiano' },
+  { id: '9', name: 'Portuguese (Brazil)', code: 'pt-BR', nativeName: 'Português (Brasil)' },
+  { id: '10', name: 'Portuguese (Portugal)', code: 'pt-PT', nativeName: 'Português' },
+  { id: '11', name: 'Dutch (Netherlands)', code: 'nl-NL', nativeName: 'Nederlands' },
+  { id: '12', name: 'Polish (Poland)', code: 'pl-PL', nativeName: 'Polski' },
+  { id: '13', name: 'Russian (Russia)', code: 'ru-RU', nativeName: 'Русский' },
+  { id: '14', name: 'Ukrainian (Ukraine)', code: 'uk-UA', nativeName: 'Українська' },
+  { id: '15', name: 'Turkish (Turkey)', code: 'tr-TR', nativeName: 'Türkçe' },
+  { id: '16', name: 'Arabic (Saudi Arabia)', code: 'ar-SA', nativeName: 'العربية' },
+  { id: '17', name: 'Hindi (India)', code: 'hi-IN', nativeName: 'हिन्दी' },
+  { id: '18', name: 'Chinese (Simplified)', code: 'zh-CN', nativeName: '简体中文' },
+  { id: '19', name: 'Chinese (Traditional)', code: 'zh-TW', nativeName: '繁體中文' },
+  { id: '20', name: 'Japanese (Japan)', code: 'ja-JP', nativeName: '日本語' },
+  { id: '21', name: 'Korean (South Korea)', code: 'ko-KR', nativeName: '한국어' },
+  { id: '22', name: 'Thai (Thailand)', code: 'th-TH', nativeName: 'ไทย' },
+  { id: '23', name: 'Vietnamese (Vietnam)', code: 'vi-VN', nativeName: 'Tiếng Việt' },
+  { id: '24', name: 'Indonesian (Indonesia)', code: 'id-ID', nativeName: 'Bahasa Indonesia' },
+];

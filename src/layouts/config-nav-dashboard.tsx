@@ -1,46 +1,66 @@
+import { Icon } from '@iconify/react';
+
 import { Label } from 'src/components/label';
-import { SvgColor } from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
 
-const icon = (name: string) => (
-  <SvgColor width="100%" height="100%" src={`/assets/icons/navbar/${name}.svg`} />
-);
+const icon = (name: string) => <Icon icon={`mdi:${name}`} width="100%" height="100%" />;
 
 export const navData = [
   {
-    title: 'Dashboard',
-    path: '/',
-    icon: icon('ic-analytics'),
+    title: 'Settings',
+    items: [
+      {
+        title: 'Dashboard',
+        path: '/',
+        icon: icon('chart-line'),
+      },
+
+      {
+        title: 'Languages',
+        path: '/languages',
+        icon: icon('translate'),
+      },
+    ],
   },
   {
-    title: 'User',
-    path: '/user',
-    icon: icon('ic-user'),
+    title: 'Content Management',
+    items: [
+      {
+        title: 'User',
+        path: '/user',
+        icon: icon('account'),
+      },
+      {
+        title: 'Product',
+        path: '/products',
+        icon: icon('cart'),
+        info: (
+          <Label color="error" variant="inverted">
+            +3
+          </Label>
+        ),
+      },
+      {
+        title: 'Blog',
+        path: '/blog',
+        icon: icon('text-long'),
+      },
+    ],
   },
   {
-    title: 'Product',
-    path: '/products',
-    icon: icon('ic-cart'),
-    info: (
-      <Label color="error" variant="inverted">
-        +3
-      </Label>
-    ),
-  },
-  {
-    title: 'Blog',
-    path: '/blog',
-    icon: icon('ic-blog'),
-  },
-  {
-    title: 'Sign in',
-    path: '/sign-in',
-    icon: icon('ic-lock'),
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: icon('ic-disabled'),
+    title: 'Others',
+    items: [
+      {
+        title: 'Sign in',
+        path: '/sign-in',
+        icon: icon('lock'),
+      },
+      {
+        title: 'Not found',
+        path: '/404',
+        icon: icon('alert-circle'),
+      },
+    ],
   },
 ];

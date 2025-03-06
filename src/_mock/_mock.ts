@@ -91,6 +91,11 @@ export const _company = (index: number) =>
     'Streich Group',
   ][index];
 
+export const _localeName = (index: number) =>
+  ['English (United States)', 'Spanish (Spain)', 'Thai (Thailand)'][index];
+
+export const _localeCode = (index: number) => ['en-US', 'es-ES', 'th-TH'][index];
+
 export const _boolean = (index: number) =>
   [
     true,

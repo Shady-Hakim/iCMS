@@ -9,6 +9,8 @@ import {
   _postTitles,
   _description,
   _productNames,
+  _localeCode,
+  _localeName,
 } from './_mock';
 
 // ----------------------------------------------------------------------
@@ -44,7 +46,16 @@ export const _users = [...Array(24)].map((_, index) => ({
 }));
 
 // ----------------------------------------------------------------------
+export const _languages = [...Array(3)].map((_, index) => ({
+  id: _id(index),
+  name: _localeName(index),
+  code: _localeCode(index),
+  flag: `/assets/images/avatar/avatar-${index + 1}.webp`,
+  isActive: index % 4 !== 0,
+  isDefault: index === 1,
+}));
 
+// ----------------------------------------------------------------------
 export const _posts = [...Array(23)].map((_, index) => ({
   id: _id(index),
   title: _postTitles(index),
