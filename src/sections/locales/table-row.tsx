@@ -4,9 +4,9 @@ import { Box, Button, Avatar, TableRow, Checkbox, TableCell } from '@mui/materia
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
+import { DeleteDialog } from 'src/components/table/DeleteDialog';
 
 import { LocaleDialog } from './LocaleDialog';
-import { DeleteDialog } from './DeleteDialog';
 
 import type { Language, LanguageTableRowProps } from './languages.type';
 
@@ -76,7 +76,7 @@ export function LanguageTableRow({ row, selected, onSelectRow }: LanguageTableRo
         open={openDeleteDialog}
         onClose={handleCloseDeleteDialog}
         onDelete={handleDeleteLanguage}
-        selectedLanguage={row}
+        selectedItem={row}
       />
     </>
   );

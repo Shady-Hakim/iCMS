@@ -2,26 +2,24 @@ import React from 'react';
 
 import { Box, Button, Dialog, DialogTitle, DialogActions, DialogContent } from '@mui/material';
 
-import type { Language } from './languages.type';
-
 interface DeleteDialogProps {
   open: boolean;
   onClose: () => void;
   onDelete: () => void;
-  selectedLanguage: Language;
+  selectedItem: any;
 }
 
 export const DeleteDialog: React.FC<DeleteDialogProps> = ({
   open,
   onClose,
   onDelete,
-  selectedLanguage,
+  selectedItem,
 }) => (
   <Dialog open={open} onClose={onClose}>
-    <DialogTitle>Delete Language</DialogTitle>
+    <DialogTitle>Delete</DialogTitle>
     <DialogContent>
       <Box>
-        This action cannot be undone. Are you sure you want to delete this {selectedLanguage.name}?
+        This action cannot be undone. Are you sure you want to delete this {selectedItem.name}?
       </Box>
     </DialogContent>
     <DialogActions>

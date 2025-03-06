@@ -1,5 +1,3 @@
-import type { Language } from './languages.type';
-
 export const visuallyHidden = {
   border: 0,
   margin: -1,
@@ -51,7 +49,7 @@ export function getComparator<Key extends keyof any>(
 // ----------------------------------------------------------------------
 
 type ApplyFilterProps = {
-  inputData: Language[];
+  inputData: any[];
   filterName: string;
   comparator: (a: any, b: any) => number;
 };

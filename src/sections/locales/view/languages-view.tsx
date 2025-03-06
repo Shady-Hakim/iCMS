@@ -1,46 +1,58 @@
-import { useState, useCallback } from 'react';
+import type { Column } from 'src/components/table/DynamicTable';
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import TableBody from '@mui/material/TableBody';
-import Typography from '@mui/material/Typography';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
+import { useState } from 'react';
+
+import { Box, Avatar, Button, Typography } from '@mui/material';
 
 import { _languages } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
+import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
-import { Scrollbar } from 'src/components/scrollbar';
+import { DynamicTable } from 'src/components/table/DynamicTable';
 
-import { TableNoData } from '../table-no-data';
 import { LocaleDialog } from '../LocaleDialog';
 import { LanguageTableRow } from '../table-row';
-import { LanguageTableHead } from '../table-head';
-import { TableEmptyRows } from '../table-empty-rows';
-import { LanguageTableToolbar } from '../table-toolbar';
-import { emptyRows, applyFilter, getComparator } from '../utils';
 
 import type { Language } from '../languages.type';
 
-// ----------------------------------------------------------------------
-
 export function LanguagesView() {
   const [open, setOpen] = useState(false);
-  const table = useTable();
   const [locales, setLocales] = useState<Language[]>(_languages);
-
-  const [filterName, setFilterName] = useState('');
-
-  const dataFiltered: Language[] = applyFilter({
-    inputData: locales,
-    comparator: getComparator(table.order, table.orderBy),
-    filterName,
-  });
-
-  const notFound = !dataFiltered.length && !!filterName;
+  const columns: Column[] = [
+    {
+      id: 'localeName',
+      label: 'Locale name',
+      renderCell: (row: Language) => (
+        <Box gap={2} display="flex" alignItems="center">
+          <Avatar alt={row.name} src={row.flag} />
+          {row.name}
+        </Box>
+      ),
+    },
+    { id: 'localeCode', label: 'Locale code' },
+    {
+      id: 'status',
+      label: 'Status',
+      renderCell: (row: Language) => (
+        <Label color={(!row.isActive && 'error') || 'success'}>
+          {row.isActive ? 'Active' : 'Inactive'}
+        </Label>
+      ),
+    },
+    {
+      id: 'default',
+      label: 'Default',
+      align: 'center',
+      renderCell: (row: Language) =>
+        row.isDefault ? <Iconify icon="eva:checkmark-circle-2-fill" color="green" /> : null,
+    },
+    {
+      id: 'actions',
+      label: 'Actions',
+      align: 'center',
+    },
+  ];
 
   const handleAddLocale = (data: Language) => {
     const newLocale: Language = {
@@ -63,148 +75,18 @@ export function LanguagesView() {
           startIcon={<Iconify icon="mingcute:add-line" />}
           onClick={() => setOpen(true)}
         >
-          New language
+          New
         </Button>
       </Box>
 
-      <Card>
-        <LanguageTableToolbar
-          numSelected={table.selected.length}
-          filterName={filterName}
-          onFilterName={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setFilterName(event.target.value);
-            table.onResetPage();
-          }}
-        />
-
-        <Scrollbar>
-          <TableContainer sx={{ overflow: 'unset' }}>
-            <Table sx={{ minWidth: 800 }}>
-              <LanguageTableHead
-                order={table.order}
-                orderBy={table.orderBy}
-                rowCount={_languages.length}
-                numSelected={table.selected.length}
-                onSort={table.onSort}
-                onSelectAllRows={(checked) =>
-                  table.onSelectAllRows(
-                    checked,
-                    _languages.map((language) => language.id)
-                  )
-                }
-                headLabel={[
-                  { id: 'localeName', label: 'Locale name' },
-                  { id: 'localeCode', label: 'Locale code' },
-                  { id: 'status', label: 'Status' },
-                  { id: 'default', label: 'Default', align: 'center' },
-                  { id: 'actions', label: 'Actions', align: 'center' },
-                ]}
-              />
-              <TableBody>
-                {dataFiltered
-                  .slice(
-                    table.page * table.rowsPerPage,
-                    table.page * table.rowsPerPage + table.rowsPerPage
-                  )
-                  .map((row) => (
-                    <LanguageTableRow
-                      key={row.id}
-                      row={row}
-                      selected={table.selected.includes(row.id)}
-                      onSelectRow={() => table.onSelectRow(row.id)}
-                    />
-                  ))}
-
-                <TableEmptyRows
-                  height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, _languages.length)}
-                />
-
-                {notFound && <TableNoData searchQuery={filterName} />}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Scrollbar>
-
-        <TablePagination
-          component="div"
-          page={table.page}
-          count={_languages.length}
-          rowsPerPage={table.rowsPerPage}
-          onPageChange={table.onChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
-          onRowsPerPageChange={table.onChangeRowsPerPage}
-        />
-      </Card>
+      <DynamicTable
+        title="Languages"
+        data={locales}
+        columns={columns}
+        rowComponent={LanguageTableRow}
+        onAddNew={() => setOpen(true)}
+      />
       <LocaleDialog open={open} onClose={() => setOpen(false)} onSubmit={handleAddLocale} />
     </DashboardContent>
   );
-}
-
-// ----------------------------------------------------------------------
-
-export function useTable() {
-  const [page, setPage] = useState(0);
-  const [orderBy, setOrderBy] = useState('name');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [selected, setSelected] = useState<string[]>([]);
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-
-  const onSort = useCallback(
-    (id: string) => {
-      const isAsc = orderBy === id && order === 'asc';
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-    },
-    [order, orderBy]
-  );
-
-  const onSelectAllRows = useCallback((checked: boolean, newSelecteds: string[]) => {
-    if (checked) {
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  }, []);
-
-  const onSelectRow = useCallback(
-    (inputValue: string) => {
-      const newSelected = selected.includes(inputValue)
-        ? selected.filter((value) => value !== inputValue)
-        : [...selected, inputValue];
-
-      setSelected(newSelected);
-    },
-    [selected]
-  );
-
-  const onResetPage = useCallback(() => {
-    setPage(0);
-  }, []);
-
-  const onChangePage = useCallback((event: unknown, newPage: number) => {
-    setPage(newPage);
-  }, []);
-
-  const onChangeRowsPerPage = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
-      onResetPage();
-    },
-    [onResetPage]
-  );
-
-  return {
-    page,
-    order,
-    onSort,
-    orderBy,
-    selected,
-    rowsPerPage,
-    onSelectRow,
-    onResetPage,
-    onChangePage,
-    onSelectAllRows,
-    onChangeRowsPerPage,
-  };
 }

@@ -7,19 +7,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { Iconify } from 'src/components/iconify';
 
-// ----------------------------------------------------------------------
-
-type LanguageTableToolbarProps = {
+type TableToolbarProps = {
   numSelected: number;
   filterName: string;
   onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function LanguageTableToolbar({
-  numSelected,
-  filterName,
-  onFilterName,
-}: LanguageTableToolbarProps) {
+export function TableToolbar({ numSelected, filterName, onFilterName }: TableToolbarProps) {
   return (
     <Toolbar
       sx={{
@@ -48,20 +42,14 @@ export function LanguageTableToolbar({
               <Iconify width={20} icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
             </InputAdornment>
           }
-          sx={{ maxWidth: 320 }}
+          // sx={{ maxWidth: 320 }}
         />
       )}
 
-      {numSelected > 0 ? (
+      {numSelected > 0 && (
         <Tooltip title="Delete">
           <IconButton>
             <Iconify icon="solar:trash-bin-trash-bold" />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <Iconify icon="ic:round-filter-list" />
           </IconButton>
         </Tooltip>
       )}
