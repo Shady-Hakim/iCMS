@@ -1,19 +1,9 @@
 import { useState } from 'react';
 
-import {
-  Box,
-  Card,
-  Table,
-  Button,
-  TableBody,
-  Typography,
-  TableContainer,
-  TablePagination,
-} from '@mui/material';
+import { Box, Card, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 
 import { Scrollbar } from 'src/components/scrollbar';
 
-import { Iconify } from '../iconify';
 import { useTable } from './useTable';
 import { TableNoData } from './TableNoData';
 import { TableToolbar } from './TableToolbar';
@@ -33,9 +23,7 @@ export interface Column {
 interface DynamicTableProps {
   data: any[];
   columns: Column[];
-  title: string;
   rowComponent: React.ComponentType<any>;
-  onAddNew?: () => void;
   initialRowsPerPage?: number;
   rowsPerPageOptions?: number[];
   searchQuery?: string;
@@ -44,9 +32,7 @@ interface DynamicTableProps {
 export function DynamicTable({
   data,
   columns,
-  title,
   rowComponent: RowComponent,
-  onAddNew,
   initialRowsPerPage = 5,
   rowsPerPageOptions = [5, 10, 25],
   searchQuery = '',
@@ -54,6 +40,7 @@ export function DynamicTable({
   const table = useTable({ initialRowsPerPage });
   const [filterName, setFilterName] = useState(searchQuery);
 
+  // Apply filter and sort the data
   const dataFiltered: any[] = applyFilter({
     inputData: data,
     comparator: getComparator(table.order, table.orderBy),
@@ -101,7 +88,6 @@ export function DynamicTable({
                     <RowComponent
                       key={row.id}
                       row={row}
-                      columns={columns}
                       selected={table.selected.includes(row.id)}
                       onSelectRow={() => table.onSelectRow(row.id)}
                     />

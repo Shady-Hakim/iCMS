@@ -10,13 +10,9 @@ export const visuallyHidden = {
   clip: 'rect(0 0 0 0)',
 } as const;
 
-// ----------------------------------------------------------------------
-
 export function emptyRows(page: number, rowsPerPage: number, arrayLength: number) {
   return page ? Math.max(0, (1 + page) * rowsPerPage - arrayLength) : 0;
 }
-
-// ----------------------------------------------------------------------
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -28,25 +24,14 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-// ----------------------------------------------------------------------
-
 export function getComparator<Key extends keyof any>(
   order: 'asc' | 'desc',
   orderBy: Key
-): (
-  a: {
-    [key in Key]: number | string;
-  },
-  b: {
-    [key in Key]: number | string;
-  }
-) => number {
+): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
-// ----------------------------------------------------------------------
 
 type ApplyFilterProps = {
   inputData: any[];
@@ -57,19 +42,21 @@ type ApplyFilterProps = {
 export function applyFilter({ inputData, comparator, filterName }: ApplyFilterProps) {
   const stabilizedThis = inputData.map((el, index) => [el, index] as const);
 
+  // Sort based on the comparator
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
-    return a[1] - b[1];
+    return a[1] - b[1]; // Maintain stable sort
   });
 
-  inputData = stabilizedThis.map((el) => el[0]);
+  let filteredData = stabilizedThis.map((el) => el[0]);
 
+  // Apply filter if filterName exists
   if (filterName) {
-    inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+    filteredData = filteredData.filter((item) =>
+      item.name?.toLowerCase().includes(filterName.toLowerCase())
     );
   }
 
-  return inputData;
+  return filteredData;
 }

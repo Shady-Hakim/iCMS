@@ -19,9 +19,10 @@ import type { Language } from '../languages.type';
 export function LanguagesView() {
   const [open, setOpen] = useState(false);
   const [locales, setLocales] = useState<Language[]>(_languages);
+
   const columns: Column[] = [
     {
-      id: 'localeName',
+      id: 'name',
       label: 'Locale name',
       renderCell: (row: Language) => (
         <Box gap={2} display="flex" alignItems="center">
@@ -30,9 +31,9 @@ export function LanguagesView() {
         </Box>
       ),
     },
-    { id: 'localeCode', label: 'Locale code' },
+    { id: 'code', label: 'Locale code' },
     {
-      id: 'status',
+      id: 'isActive',
       label: 'Status',
       renderCell: (row: Language) => (
         <Label color={(!row.isActive && 'error') || 'success'}>
@@ -41,7 +42,7 @@ export function LanguagesView() {
       ),
     },
     {
-      id: 'default',
+      id: 'isDefault',
       label: 'Default',
       align: 'center',
       renderCell: (row: Language) =>
@@ -79,13 +80,7 @@ export function LanguagesView() {
         </Button>
       </Box>
 
-      <DynamicTable
-        title="Languages"
-        data={locales}
-        columns={columns}
-        rowComponent={LanguageTableRow}
-        onAddNew={() => setOpen(true)}
-      />
+      <DynamicTable data={locales} columns={columns} rowComponent={LanguageTableRow} />
       <LocaleDialog open={open} onClose={() => setOpen(false)} onSubmit={handleAddLocale} />
     </DashboardContent>
   );

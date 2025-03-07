@@ -1,6 +1,7 @@
-import { TableRow, Checkbox, TableHead, TableCell, TableSortLabel } from '@mui/material';
+import { TableRow, Checkbox, TableHead, TableCell, TableSortLabel, Box } from '@mui/material';
 
 import type { Column } from './DynamicTable';
+import { visuallyHidden } from './utils';
 
 interface DynamicTableHeadProps {
   columns: Column[];
