@@ -21,6 +21,11 @@ export const navData = [
         path: '/languages',
         icon: icon('translate'),
       },
+      {
+        title: 'Content types',
+        path: '/content-types',
+        icon: icon('building'),
+      },
     ],
   },
   {

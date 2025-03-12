@@ -36,7 +36,7 @@ export function TableToolbar({ numSelected, filterName, onFilterName }: TableToo
           fullWidth
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search language..."
+          placeholder="Type your search keyword.."
           startAdornment={
             <InputAdornment position="start">
               <Iconify width={20} icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
