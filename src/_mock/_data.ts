@@ -7,10 +7,10 @@ import {
   _fullName,
   _taskNames,
   _postTitles,
-  _description,
-  _productNames,
   _localeCode,
   _localeName,
+  _description,
+  _productNames,
 } from './_mock';
 
 // ----------------------------------------------------------------------

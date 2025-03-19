@@ -1,24 +1,23 @@
 import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Button, Tooltip, TableRow, Checkbox, TableCell } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 import { DeleteDialog } from 'src/components/table/DeleteDialog';
 
-import { ContentTypeDialog } from './addTypeDialog';
+import { FieldDialog } from './fieldDialog';
 
-import type { ContentType, ContentTypeTableRowProps } from './contentTypes.type';
+import type { ContentField, ContentFieldTableRowProps } from './contentFields.type';
 
-export function ContentTypeTableRow({ row, selected, onSelectRow }: ContentTypeTableRowProps) {
+export function ContentTypeTableRow({ row, selected, onSelectRow }: ContentFieldTableRowProps) {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const navigate = useNavigate();
+
   const handleCloseEditDialog = useCallback(() => {
     setOpenEditDialog(false);
   }, []);
 
-  const handleSubmitEditDialog = (data: ContentType) => {
+  const handleSubmitEditDialog = (data: ContentField) => {
     // Handle the form submission logic here (e.g., update the content type)
     console.log('Updated Data:', data);
     handleCloseEditDialog();
@@ -41,9 +40,7 @@ export function ContentTypeTableRow({ row, selected, onSelectRow }: ContentTypeT
     console.log('Deleted:', row);
     setOpenDeleteDialog(false);
   };
-  const handleOpenFieldsPage = () => {
-    navigate(`/content-types/${row.id}`);
-  };
+
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -52,21 +49,10 @@ export function ContentTypeTableRow({ row, selected, onSelectRow }: ContentTypeT
         </TableCell>
 
         <TableCell component="th" scope="row">
-          {row.displayName}
+          {row.name}
         </TableCell>
-        <TableCell>{row.singular}</TableCell>
-        <TableCell>{row.plural}</TableCell>
+        <TableCell>{row.type}</TableCell>
         <TableCell align="center">
-          <Tooltip title="Fields" arrow placement="top">
-            <Button
-              onClick={handleOpenFieldsPage}
-              variant="text"
-              color="primary"
-              sx={{ minWidth: 0 }}
-            >
-              <Iconify icon="solar:layers-minimalistic-outline" />
-            </Button>
-          </Tooltip>
           <Tooltip title="Edit" arrow placement="top">
             <Button
               onClick={handleOpenEditDialog}
@@ -95,7 +81,7 @@ export function ContentTypeTableRow({ row, selected, onSelectRow }: ContentTypeT
       </TableRow>
 
       {/* Edit Dialog */}
-      <ContentTypeDialog
+      <FieldDialog
         open={openEditDialog}
         onClose={handleCloseEditDialog}
         onSubmit={handleSubmitEditDialog}
