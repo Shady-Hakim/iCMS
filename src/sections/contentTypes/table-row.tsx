@@ -46,7 +46,16 @@ export function ContentTypeTableRow({ row, selected, onSelectRow }: ContentTypeT
   };
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+      <TableRow
+        hover
+        tabIndex={-1}
+        role="checkbox"
+        selected={selected}
+        onClick={handleOpenFieldsPage}
+        sx={{
+          cursor: 'pointer',
+        }}
+      >
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={onSelectRow} />
         </TableCell>
