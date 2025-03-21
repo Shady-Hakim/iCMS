@@ -5,6 +5,7 @@ import {
   Box,
   Card,
   Radio,
+  Tooltip,
   RadioGroup,
   Typography,
   CardContent,
@@ -23,11 +24,20 @@ const FIELD_TYPES = [
   },
   { value: 'longText', title: 'Long Text', description: 'Multi-line text input', icon: 'T¶' },
   { value: 'boolean', title: 'Boolean', description: 'True/False value', icon: '✓' },
+  {
+    value: 'richText',
+    title: 'Rich Text',
+    description: 'Formatted text with styling options',
+    icon: '📝',
+  },
+  { value: 'json', title: 'JSON', description: 'Structured data format', icon: '{}' },
   { value: 'number', title: 'Number', description: 'Numeric value', icon: '123' },
   { value: 'email', title: 'Email', description: 'Email address with validation', icon: '@' },
   { value: 'date', title: 'Date', description: 'Date picker', icon: '📅' },
   { value: 'password', title: 'Password', description: 'Secure text input', icon: '🔒' },
-  { value: 'json', title: 'JSON', description: 'Structured data format', icon: '{}' },
+  { value: 'media', title: 'Media', description: 'Image, video, or file upload', icon: '🖼️' },
+  { value: 'relation', title: 'Relation', description: 'Link to another content type', icon: '🔗' },
+  { value: 'uid', title: 'UID', description: 'Unique identifier', icon: '🆔' },
 ];
 
 interface FieldTypeSelectorProps extends ContentFieldFormProps {
@@ -64,69 +74,70 @@ export const FieldTypeSelector: React.FC<FieldTypeSelectorProps> = ({
             }}
           >
             {FIELD_TYPES.map((item) => (
-              <Card
-                key={item.value}
-                sx={{
-                  minHeight: 90,
-                  border: selectedType === item.value ? '2px solid #1976d2' : '1px solid #e0e0e0',
-                  bgcolor: selectedType === item.value ? 'grey.100' : 'white',
-                  display: 'flex',
-                }}
-              >
-                <CardActionArea
-                  component="label"
-                  onClick={() => {
-                    field.onChange(item.value);
-                    onTypeSelect(item.value);
+              <Tooltip title={item.description} placement="top" arrow key={item.value}>
+                <Card
+                  sx={{
+                    minHeight: 90,
+                    border: selectedType === item.value ? '2px solid #1976d2' : '1px solid #e0e0e0',
+                    bgcolor: selectedType === item.value ? 'grey.100' : 'white',
+                    display: 'flex',
                   }}
                 >
-                  <CardContent
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 2,
-                      height: '100%',
-                      py: 1,
+                  <CardActionArea
+                    component="label"
+                    onClick={() => {
+                      field.onChange(item.value);
+                      onTypeSelect(item.value);
                     }}
                   >
-                    <Box
+                    <CardContent
                       sx={{
-                        width: 32,
-                        height: 32,
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: 20,
-                        flexShrink: 0,
+                        gap: 2,
+                        height: '100%',
+                        py: 1,
                       }}
                     >
-                      {item.icon}
-                    </Box>
-                    <Box sx={{ flexGrow: 1 }}>
-                      <Typography variant="subtitle2">{item.title}</Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
+                      <Box
                         sx={{
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 1,
-                          WebkitBoxOrient: 'vertical',
+                          width: 32,
+                          height: 32,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: 20,
+                          flexShrink: 0,
                         }}
                       >
-                        {item.description}
-                      </Typography>
-                    </Box>
-                    <FormControlLabel
-                      value={item.value}
-                      control={<Radio sx={{ display: 'none' }} />}
-                      label=""
-                      sx={{ position: 'absolute', inset: 0, m: 0, opacity: 0 }}
-                    />
-                  </CardContent>
-                </CardActionArea>
-              </Card>
+                        {item.icon}
+                      </Box>
+                      <Box sx={{ flexGrow: 1 }}>
+                        <Typography variant="subtitle2">{item.title}</Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 1,
+                            WebkitBoxOrient: 'vertical',
+                          }}
+                        >
+                          {item.description}
+                        </Typography>
+                      </Box>
+                      <FormControlLabel
+                        value={item.value}
+                        control={<Radio sx={{ display: 'none' }} />}
+                        label=""
+                        sx={{ position: 'absolute', inset: 0, m: 0, opacity: 0 }}
+                      />
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Tooltip>
             ))}
           </Box>
         </RadioGroup>
